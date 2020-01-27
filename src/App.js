@@ -59,7 +59,9 @@ class App extends Component {
     )
       .then(response => response.json())
       .then(result => this.setSearchTopStories(result))
-      .catch(e => this.setState({ error: e }));
+      .catch(e => {
+        this.setState({ error: e, isLoading: false });
+      });
   };
 
   componentDidMount() {
@@ -100,7 +102,6 @@ class App extends Component {
     } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
-    const errorMessage = error?.error ?? "";
 
     return (
       <div className="page">
@@ -114,27 +115,31 @@ class App extends Component {
             Search{" "}
           </Search>
         </div>
-        {errorMessage === "" ? (
-          <Table
-            list={list}
-            searchTerm={searchTerm}
-            onDismiss={this.onDismiss}
-          />
+        {!error ? (
+          isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <>
+              <Table
+                list={list}
+                searchTerm={searchTerm}
+                onDismiss={this.onDismiss}
+              />
+              <div className="interactions">
+                <Button
+                  onClick={() =>
+                    this.fetchSearchTopStories(searchKey, page + 1)
+                  }
+                >
+                  {" "}
+                  More{" "}
+                </Button>
+              </div>
+            </>
+          )
         ) : (
           <h3>Something went wrong.</h3>
         )}
-        <div className="interactions">
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <Button
-              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
-            >
-              {" "}
-              More{" "}
-            </Button>
-          )}
-        </div>
       </div>
     );
   }
