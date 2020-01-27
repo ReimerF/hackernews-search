@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
-import Search from "./components/Search.js";
-import Table from "./components/Table.js";
-import Button from "./components/Button.js";
+import Search from "./components/Search";
+import Table from "./components/Table";
+import Button from "./components/Button";
 import fetch from "isomorphic-fetch";
 
 const list = [];
@@ -130,31 +130,23 @@ class App extends Component {
             Search{" "}
           </Search>
         </div>
-        {!error ? (
-          isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <>
-              <Table
-                list={list}
-                searchTerm={searchTerm}
-                onDismiss={this.onDismiss}
-              />
-              <div className="interactions">
-                <Button
-                  onClick={() =>
-                    this.fetchSearchTopStories(searchKey, page + 1)
-                  }
-                >
-                  {" "}
-                  More{" "}
-                </Button>
-              </div>
-            </>
-          )
-        ) : (
-          <h3>Something went wrong.</h3>
-        )}
+
+        <>
+          <Table
+            list={list}
+            searchTerm={searchTerm}
+            onDismiss={this.onDismiss}
+          />
+          <div className="interactions">
+            <ButtonWithLoading
+              isLoading={isLoading}
+              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+            >
+              {" "}
+              More{" "}
+            </ButtonWithLoading>
+          </div>
+        </>
       </div>
     );
   }

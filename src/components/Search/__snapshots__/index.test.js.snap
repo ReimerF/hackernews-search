@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Search has a valid snapshot 1`] = `
+<div>
+  <form
+    onSubmit={[MockFunction]}
+  >
+    <button
+      type="submit"
+    >
+      Search
+       &gt;
+    </button>
+    <input
+      onChange={[MockFunction]}
+      type="text"
+      value="test"
+    />
+  </form>
+</div>
+`;

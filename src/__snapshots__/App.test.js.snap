@@ -27,137 +27,15 @@ exports[`App App has a valid snapshot 1`] = `
       </form>
     </div>
   </div>
-  <div>
-    Loading...
-  </div>
-</div>
-`;
-
-exports[`Button Button has a valid snapshot 1`] = `
-<button
-  type="button"
->
-  Testing happening here
-</button>
-`;
-
-exports[`Search Search has a valid snapshot 1`] = `
-<div>
-  <form>
-    <button
-      type="submit"
-    >
-      Search
-       &gt;
-    </button>
-    <input
-      type="text"
-    />
-  </form>
-</div>
-`;
-
-exports[`Table has a valid snapshot 1`] = `
-<div
-  className="table"
->
   <div
-    className="table-row"
-  >
-    <span
-      style={
-        Object {
-          "width": "40%",
-        }
-      }
-    >
-      <a>
-        1
-      </a>
-    </span>
-    <span
-      style={
-        Object {
-          "width": "30%",
-        }
-      }
-    >
-      2
-    </span>
-    <span
-      style={
-        Object {
-          "width": "10%",
-        }
-      }
-    >
-      3
-    </span>
-    <span
-      style={
-        Object {
-          "width": "10%",
-        }
-      }
-    >
-      4
-    </span>
-    <button
-      className="button-inline"
-      onClick={[Function]}
-      type="button"
-    >
-       Dismiss 
-    </button>
-  </div>
+    className="table"
+  />
   <div
-    className="table-row"
+    className="interactions"
   >
-    <span
-      style={
-        Object {
-          "width": "40%",
-        }
-      }
-    >
-      <a>
-        5
-      </a>
-    </span>
-    <span
-      style={
-        Object {
-          "width": "30%",
-        }
-      }
-    >
-      6
-    </span>
-    <span
-      style={
-        Object {
-          "width": "10%",
-        }
-      }
-    >
-      7
-    </span>
-    <span
-      style={
-        Object {
-          "width": "10%",
-        }
-      }
-    >
-      8
-    </span>
-    <button
-      className="button-inline"
-      onClick={[Function]}
-      type="button"
-    >
-       Dismiss 
-    </button>
+    <div>
+      Loading...
+    </div>
   </div>
 </div>
 `;
