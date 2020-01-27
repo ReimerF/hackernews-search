@@ -16,6 +16,13 @@ const PARAM_SEARCH = "query=";
 const PARAM_PAGE = "page=";
 const PARAM_HPP = "hitsPerPage=";
 
+const Loading = () => <div>Loading...</div>;
+
+const withLoading = Component => ({ isLoading, ...rest }) =>
+  isLoading ? <Loading /> : <Component {...rest} />;
+
+const ButtonWithLoading = withLoading(Button);
+
 class App extends Component {
   state = {
     results: null,
@@ -74,10 +81,18 @@ class App extends Component {
     console.log("starting onDismiss...");
     const { results, searchKey } = this.state;
     const { hits, page } = results[searchKey];
+    console.log("hits", hits);
     const updatedList = hits.filter(item => item.objectID !== id);
+    console.log("updated list", updatedList);
+    console.log("current list before update", this.state.list);
     this.setState({
-      results: { ...results, [searchKey]: { hits: updatedList, page } }
+      results: {
+        ...results,
+        [searchKey]: { hits: updatedList, page }
+      },
+      list: updatedList
     });
+    console.log("list after update", this.state.list);
   };
 
   onSearchChange = textoBusca => {

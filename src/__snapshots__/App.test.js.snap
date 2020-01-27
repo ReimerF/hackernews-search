@@ -14,7 +14,9 @@ exports[`App App has a valid snapshot 1`] = `
         <button
           type="submit"
         >
-           Search 
+           
+          Search
+           
            &gt;
         </button>
         <input
@@ -25,26 +27,14 @@ exports[`App App has a valid snapshot 1`] = `
       </form>
     </div>
   </div>
-  <h3>
-    Something went wrong.
-  </h3>
-  <div
-    className="interactions"
-  >
-    <button
-      className=""
-      onClick={[Function]}
-      type="button"
-    >
-       More 
-    </button>
+  <div>
+    Loading...
   </div>
 </div>
 `;
 
 exports[`Button Button has a valid snapshot 1`] = `
 <button
-  className=""
   type="button"
 >
   Testing happening here
