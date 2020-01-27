@@ -3,6 +3,7 @@ import './App.css';
 import Search from './components/Search.js';
 import Table from './components/Table.js';
 import Button from './components/Button.js';
+import fetch from 'isomorphic-fetch';
 
   const list = [];
 
@@ -21,8 +22,10 @@ class App extends Component {
     super(props);
 
     this.state = {
-      result: null,
+      results: null,
+      searchKey: '',
       list,
+      error: null,
       searchTerm: DEFAULT_QUERY,
       page: 0
     };
@@ -34,10 +37,11 @@ class App extends Component {
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
-  setSearchTopStories(result) {
+  setSearchTopStories = (result) => {
     const { hits, page } = result;
+    const { results, searchKey } = this.state;
 
-    const oldHits = page !== 0 ? this.state.result.hits : [];
+    const oldHits = results && results[searchKey] ? results[searchKey].hits : [];
 
     const updatedHits = [
       ...oldHits,
@@ -45,28 +49,33 @@ class App extends Component {
     ];
 
     this.setState({
-      result: { hits: updatedHits, page}
+      results: { ...results, [searchKey]: {hits: updatedHits, page}}
     });
+
+    this.setState({list: results[searchKey].hits})
   }
 
-  fetchSearchTopStories(searchTerm, page = 0) {
+  fetchSearchTopStories = (searchTerm, page = 0) => {
     console.log(`fetching ${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`)
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
       .then(response => response.json())
       .then(result => this.setSearchTopStories(result))
-      .catch(e => e);
+      .catch(e => this.setState({error: e}));
   }
 
   componentDidMount() {
     const { searchTerm } = this.state;
     this.fetchSearchTopStories(searchTerm);
+    this.setState({ searchKey: searchTerm });
   }
 
   onDismiss = (id) => {
-    const updatedList = this.state.result.hits.filter(item => item.objectID !== id);
-
+    console.log('starting onDismiss...')
+    const {results, searchKey} = this.state;
+    const {hits, page} = results[searchKey];
+    const updatedList = hits.filter(item => item.objectID !== id);
     this.setState({ 
-      result: {...this.state.result, hits: updatedList}
+      results: {...results, [searchKey]: { hits: updatedList, page}}
     });
   }
 
@@ -74,24 +83,25 @@ class App extends Component {
     this.setState({ searchTerm: textoBusca.target.value });
   }
 
-  onSearchSubmit(event) {
+  onSearchSubmit = (event) => {
     const { searchTerm } = this.state;
+    this.setState({searchKey: searchTerm});
     this.fetchSearchTopStories(searchTerm);
     event.preventDefault();
   }
 
   render() {
-    const { searchTerm, result } = this.state;
-    const page = (result && result.page) || 0;
+    const { searchTerm, results, searchKey, error } = this.state;
+    const page = (results && results[searchKey] && results[searchKey].page) || 0;
 
     return (
       <div className="page">
         <div className="interactions">
           <Search searchTerm={searchTerm} onSearchSubmit={this.onSearchSubmit} onSearchChange={this.onSearchChange}> Search </Search>
         </div>
-        {result && <Table result={result.hits} searchTerm={searchTerm} onDismiss={this.onDismiss}/>}
+        {results && error ? <Table list={results[searchKey].hits} searchTerm={searchTerm} onDismiss={this.onDismiss}/> : <h3>Something went wrong.</h3>}
         <div className="interactions">
-          <Button onClick={() => this.fetchSearchTopStories(searchTerm, page + 1)}> More </Button>
+          <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}> More </Button>
         </div>
       </div>
     );
@@ -99,3 +109,5 @@ class App extends Component {
 }
 
 export default App;
+
+export { Button, Search, Table};

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Search = ({ onSearchChange, onSearchSubmit, searchTerm, children }) =>
         <div>
@@ -7,5 +8,12 @@ const Search = ({ onSearchChange, onSearchSubmit, searchTerm, children }) =>
                 <input type="text" onChange={onSearchChange} value={searchTerm}/>
             </form>        
         </div>
+
+Search.propTypes = {
+    onSearchChange: PropTypes.func.isRequired, 
+    onSearchSubmit: PropTypes.func.isRequired, 
+    searchTerm: PropTypes.func.isRequired, 
+    children: PropTypes.node.isRequired
+}
 
 export default Search;

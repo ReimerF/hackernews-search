@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './Button';
+import PropTypes from 'prop-types';
 
 const largeColumn = {
     width: '40%',
@@ -11,9 +12,9 @@ const largeColumn = {
     width: '10%',
     };
 
-const Table = ({ result, searchTerm, onDismiss }) =>
+const Table = ({ list, onDismiss }) =>
     <div className="table">
-        {result.map(item => (
+        {list.map(item => (
             <div key={item.objectID} className="table-row">
                 <span style={largeColumn}><a href={item.url}>{item.title}</a></span>
                 <span style={midColumn}>{item.author}</span>
@@ -24,7 +25,10 @@ const Table = ({ result, searchTerm, onDismiss }) =>
         ))}
     </div>
         
-    
+Table.propTypes = {
+    list: PropTypes.array.isRequired,
+    onDismiss: PropTypes.func.isRequired
+}
 
 
 export default Table;
