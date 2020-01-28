@@ -41,7 +41,8 @@ class App extends Component {
     searchTerm: DEFAULT_QUERY,
     page: 0,
     isLoading: false,
-    sortKey: "NONE"
+    sortKey: "NONE",
+    isSortReverse: false
   };
 
   setSearchTopStories = result => {
@@ -117,12 +118,9 @@ class App extends Component {
   };
 
   onSort = sortKey => {
-    console.log("lista atual: ", this.state.list);
-    this.setState({ sortKey });
-    console.log("lista sorteada: ");
-    console.log(SORTS[sortKey](list));
-    console.log("-------------");
-    this.setState({ sortKey });
+    const isSortReverse =
+      this.state.sortKey === sortKey && !this.state.isSortReverse;
+    this.setState({ sortKey, isSortReverse });
   };
 
   render() {
@@ -132,7 +130,8 @@ class App extends Component {
       list,
       searchKey,
       isLoading,
-      sortKey
+      sortKey,
+      isSortReverse
     } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
@@ -158,6 +157,7 @@ class App extends Component {
             onSort={this.onSort}
             sortKey={sortKey}
             SORTS={SORTS}
+            isSortReverse={isSortReverse}
           />
           <div className="interactions">
             <ButtonWithLoading
