@@ -4,6 +4,7 @@ import Search from "./components/Search";
 import Table from "./components/Table";
 import Button from "./components/Button";
 import fetch from "isomorphic-fetch";
+import { sortBy } from "lodash";
 
 const list = [];
 
@@ -23,6 +24,14 @@ const withLoading = Component => ({ isLoading, ...rest }) =>
 
 const ButtonWithLoading = withLoading(Button);
 
+const SORTS = {
+  NONE: list => list,
+  TITLE: list => sortBy(list, "title"),
+  AUTHOR: list => sortBy(list, "author"),
+  COMMENTS: list => sortBy(list, "num_comments").reverse(),
+  POINTS: list => sortBy(list, "points").reverse()
+};
+
 class App extends Component {
   state = {
     results: null,
@@ -31,7 +40,8 @@ class App extends Component {
     error: null,
     searchTerm: DEFAULT_QUERY,
     page: 0,
-    isLoading: false
+    isLoading: false,
+    sortKey: "NONE"
   };
 
   setSearchTopStories = result => {
@@ -106,6 +116,15 @@ class App extends Component {
     event.preventDefault();
   };
 
+  onSort = sortKey => {
+    console.log("lista atual: ", this.state.list);
+    this.setState({ sortKey });
+    console.log("lista sorteada: ");
+    console.log(SORTS[sortKey](list));
+    console.log("-------------");
+    this.setState({ sortKey });
+  };
+
   render() {
     const {
       searchTerm,
@@ -113,7 +132,7 @@ class App extends Component {
       list,
       searchKey,
       isLoading,
-      error
+      sortKey
     } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
@@ -135,7 +154,10 @@ class App extends Component {
           <Table
             list={list}
             searchTerm={searchTerm}
-            onDismiss={this.onDismiss}
+            onDismiss={this.Dismiss}
+            onSort={this.onSort}
+            sortKey={sortKey}
+            SORTS={SORTS}
           />
           <div className="interactions">
             <ButtonWithLoading

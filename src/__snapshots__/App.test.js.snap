@@ -29,7 +29,62 @@ exports[`App App has a valid snapshot 1`] = `
   </div>
   <div
     className="table"
-  />
+  >
+    <div
+      className="table-row"
+    >
+      <span
+        onClick={[Function]}
+        style={
+          Object {
+            "width": "40%",
+          }
+        }
+      >
+        Title
+      </span>
+      <span
+        onClick={[Function]}
+        style={
+          Object {
+            "width": "30%",
+          }
+        }
+      >
+        Author
+      </span>
+      <span
+        onClick={[Function]}
+        style={
+          Object {
+            "width": "10%",
+          }
+        }
+      >
+        Comments
+      </span>
+      <span
+        onClick={[Function]}
+        style={
+          Object {
+            "width": "10%",
+          }
+        }
+      >
+        Points
+      </span>
+      <span
+        onClick={[Function]}
+        style={
+          Object {
+            "width": "10%",
+          }
+        }
+      >
+        Options
+      </span>
+    </div>
+  </div>
   <div
     className="interactions"
   >

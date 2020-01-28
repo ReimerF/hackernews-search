@@ -12,9 +12,26 @@ const smallColumn = {
   width: "10%"
 };
 
-const Table = ({ list, onDismiss }) => (
+const Table = ({ list, onDismiss, onSort, sortKey, SORTS }) => (
   <div className="table">
-    {list.map(item => (
+    <div key="header-row" className="table-row">
+      <span style={largeColumn} onClick={() => onSort("TITLE")}>
+        Title
+      </span>
+      <span style={midColumn} onClick={() => onSort("AUTHOR")}>
+        Author
+      </span>
+      <span style={smallColumn} onClick={() => onSort("COMMENTS")}>
+        Comments
+      </span>
+      <span style={smallColumn} onClick={() => onSort("POINTS")}>
+        Points
+      </span>
+      <span style={smallColumn} onClick={() => onSort("NONE")}>
+        Options
+      </span>
+    </div>
+    {SORTS[sortKey](list).map(item => (
       <div key={item.objectID} className="table-row">
         <span style={largeColumn}>
           <a href={item.url}>{item.title}</a>
